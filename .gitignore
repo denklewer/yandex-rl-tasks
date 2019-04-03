@@ -77,3 +77,14 @@ debian/files
 *.debhelper.log
 
 videos
+MDP.gv
+MDP.gv.pdf
+ckpt/
+logs/
+mdp_get_action_value.py
+my_model.h5
+notMNIST_small/
+output/
+qlearning.py
+tb/
+weights/
