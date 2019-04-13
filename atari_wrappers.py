@@ -155,6 +155,17 @@ class PreprocessAtariObs(ObservationWrapper):
 
         return img
 
+class RewardScale(Wrapper):
+
+    def __init__(self, env, reward_scale=0.1):
+        """A gym wrapper that reshapes, crops and scales image into the desired shapes"""
+        super(RewardScale, self).__init__(env)
+        self.reward_scale= reward_scale
+
+    def step(self,action):
+        """plays breakout for 1 step, returns frame buffer"""
+        new_img, reward, done, info = self.env.step(action)
+        return new_img, reward * self.reward_scale, done, info
 
 
 class FrameBuffer(Wrapper):
