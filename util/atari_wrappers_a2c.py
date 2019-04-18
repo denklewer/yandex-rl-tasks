@@ -151,6 +151,8 @@ class QueueFrames(gym.ObservationWrapper):
       oshape = ospace.shape + (nframes,)
     self.observation_space = spaces.Box(ospace.low.min(), ospace.high.max(),
                                         oshape, ospace.dtype)
+    print("observations_space size will be ", self.observation_space)
+
 
   def observation(self, observation):
     self.obs_queue.append(observation)
