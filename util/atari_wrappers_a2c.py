@@ -146,25 +146,21 @@ class QueueFrames(gym.ObservationWrapper):
     self.concat = concat
     ospace = self.observation_space
     if self.concat:
-      oshape = (ospace.shape[-1] * nframes,) + ospace.shape[:-1]
+      oshape = ospace.shape[:-1] + (ospace.shape[-1] * nframes,)
     else:
-      oshape = (nframes,) + ospace.shape
+      oshape = ospace.shape + (nframes,)
     self.observation_space = spaces.Box(ospace.low.min(), ospace.high.max(),
                                         oshape, ospace.dtype)
     print("observations_space size will be ", self.observation_space)
 
 
   def observation(self, observation):
-    print("observation method ", observation.shape)
     self.obs_queue.append(observation)
     return (np.concatenate(self.obs_queue, -1) if self.concat
-            else np.vstack(self.obs_queue))
+            else np.dstack(self.obs_queue))
 
   def reset(self, **kwargs):
     obs = self.env.reset()
-    print("reset method ", obs.shape)
-    obs = np.expand_dims(obs, axis=0)
-    print("reset method after expand", obs.shape)
     for _ in range(self.obs_queue.maxlen - 1):
       self.obs_queue.append(obs)
     return self.observation(obs)
