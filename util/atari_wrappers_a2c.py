@@ -148,7 +148,7 @@ class QueueFrames(gym.ObservationWrapper):
     if self.concat:
       oshape = (ospace.shape[-1] * nframes,) + ospace.shape[:-1]
     else:
-      oshape = ospace.shape + (nframes,)
+      oshape = (nframes,) + ospace.shape
     self.observation_space = spaces.Box(ospace.low.min(), ospace.high.max(),
                                         oshape, ospace.dtype)
     print("observations_space size will be ", self.observation_space)
