@@ -155,13 +155,18 @@ class QueueFrames(gym.ObservationWrapper):
 
 
   def observation(self, observation):
+    print("observation method ", observation.shape)
     observation = np.expand_dims(observation, axis=0)
+    print("after expand", observation.shape)
     self.obs_queue.append(observation)
     return (np.concatenate(self.obs_queue, -1) if self.concat
             else np.vstack(self.obs_queue))
 
   def reset(self, **kwargs):
     obs = self.env.reset()
+    print("reset method ", obs.shape)
+    obs = np.expand_dims(obs, axis=0)
+    print("reset method after expand", obs.shape)
     for _ in range(self.obs_queue.maxlen - 1):
       self.obs_queue.append(obs)
     return self.observation(obs)
