@@ -155,7 +155,8 @@ class QueueFrames(gym.ObservationWrapper):
 
 
   def observation(self, observation):
-    observation.reshape(self.observation_space.shape)
+    w, h, c = observation.shape
+    observation.reshape((c,w,h))
     self.obs_queue.append(observation)
     return (np.concatenate(self.obs_queue, -1) if self.concat
             else np.vstack(self.obs_queue))
